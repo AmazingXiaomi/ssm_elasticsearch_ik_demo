@@ -2,6 +2,8 @@ package com.xiaomi.service.impl;
 
 import com.xiaomi.bean.BaseEntity;
 import com.xiaomi.service.BaseService;
+import com.xiaomi.test.TestJunit;
+import org.apache.log4j.Logger;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -25,6 +27,7 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 @SuppressWarnings({"unchecked", "unused", "rawtypes"})
 public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
+    private static Logger logger = Logger.getLogger(BaseServiceImpl.class);
 
     @Autowired
     private TransportClient client;
@@ -109,10 +112,14 @@ public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        cib.addMapping(content, mapping);
-        cib.setSource(field);
-        CreateIndexResponse res = cib.execute().actionGet();
+        try {
+            cib.addMapping(content, mapping);
+            cib.setSource(field);
+            CreateIndexResponse res = cib.execute().actionGet();
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            logger.info("添加失败");
+        }
         return 1;
     }
 }
