@@ -1,0 +1,3 @@
+{"id":"101","author":"fendo","title":"ACKSE","content":"这是ACKSE有关的书籍","price":"50","view":"200","tag":"a,b,c","date":"2018-07-09 17:27:42"}
+{"id":"101","author":"FKSE","title":"思想","content":"注意:这是JAVA有关的书籍","price":"50","view":"200","tag":"a,b,c","date":"2018-07-10 09:15:49"}
+{"id":"199","author":"fendo","title":"BULK","content":"这是BULK有关的书籍","price":"40","view":"300","tag":"a,b,c","date":"2018-07-09 17:27:42"}
