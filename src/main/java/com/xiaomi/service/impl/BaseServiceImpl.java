@@ -12,6 +12,7 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
@@ -152,8 +153,8 @@ public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
     @Override
     public List<T> queryList(String reason) {
         QueryBuilder queryBuilder = QueryBuilders.matchAllQuery();
-        TermQueryBuilder w = QueryBuilders.termQuery("reason.pinyin", reason);
-        SearchResponse response = client.prepareSearch(article).setQuery(w).get();
+        MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("reason.pinyin", reason);
+        SearchResponse response = client.prepareSearch(article).setQuery(matchQueryBuilder).get();
         List<T> arrayList=new ArrayList<>();
         for (SearchHit searchHit : response.getHits()) {
             String sourceAsString = searchHit.getSourceAsString();

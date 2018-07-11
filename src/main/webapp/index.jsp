@@ -17,7 +17,7 @@
                     if (data){
                         for (key in data) {
                       var  user=  data[key];
-                      $("#result").append("<li>"+user.id+"</li>");
+                      $("#result").append("<li>"+user.reason+"</li>");
                         }
                     }
                 }
@@ -27,7 +27,7 @@
 </head>
 <body>
 <h2>Hello World!</h2>
-<input type="text" width="200px"  id="reason"/><input type="button" onclick="submit()" style="width: 40px" value="提交" id="submit">
+<input type="text" width="200px"  id="reason" onkeyup="submit()"/><input type="button" onclick="submit()" style="width: 40px" value="提交" id="submit">
 <div  style="background-color: antiquewhite;width: 173px">
 <ul id="result" style="list-style:none;margin: 0px">
 
