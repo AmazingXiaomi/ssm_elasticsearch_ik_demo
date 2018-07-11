@@ -27,7 +27,7 @@ public class MyConfig {
                 .put("cluster.name","elasticsearch")
                 .build();
         TransportClient client = new PreBuiltTransportClient(settings)
-                .addTransportAddress(new TransportAddress(InetAddress.getByName("47.89.17.7"), 9300));
+                .addTransportAddress(new TransportAddress(InetAddress.getByName("localhost"), 9300));
         return client;
     }
 }

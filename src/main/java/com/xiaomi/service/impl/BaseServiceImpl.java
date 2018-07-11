@@ -1,19 +1,29 @@
 package com.xiaomi.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.xiaomi.bean.BaseEntity;
+import com.xiaomi.bean.Usermsg;
 import com.xiaomi.service.BaseService;
 import com.xiaomi.test.TestJunit;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
@@ -45,7 +55,7 @@ public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
 
     @Override
     public int createIndex(Map<String, Boolean> data) {
-        String content = entityClass.getName();
+        String content = entityClass.getSimpleName();
         Field[] declaredFields = entityClass.getDeclaredFields();
 
         HashMap<String, Object> map = new HashMap<>();
@@ -121,5 +131,35 @@ public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
             logger.info("添加失败");
         }
         return 1;
+    }
+
+    @Override
+    public T getEnter(T t) {
+        String content = entityClass.getSimpleName();
+        GetResponse response = client.prepareGet(article, content, "PVMJiGQBll1KIoRT48Yr").execute()
+                .actionGet();
+        String json = response.getSourceAsString();
+        if (null != json) {
+            T t1 = JSON.parseObject(json, entityClass);
+            System.out.println(json);
+            return t1;
+        } else {
+            System.out.println("未查询到任何结果！");
+        }
+        return null;
+    }
+
+    @Override
+    public List<T> queryList(String reason) {
+        QueryBuilder queryBuilder = QueryBuilders.matchAllQuery();
+        TermQueryBuilder w = QueryBuilders.termQuery("reason.pinyin", reason);
+        SearchResponse response = client.prepareSearch(article).setQuery(w).get();
+        List<T> arrayList=new ArrayList<>();
+        for (SearchHit searchHit : response.getHits()) {
+            String sourceAsString = searchHit.getSourceAsString();
+           T t = JSON.parseObject(sourceAsString, entityClass);
+            arrayList.add(t);
+        }
+        return arrayList;
     }
 }

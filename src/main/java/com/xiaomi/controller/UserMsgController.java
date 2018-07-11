@@ -39,4 +39,21 @@ public class UserMsgController {
         }
         return "failed";
     }
+
+    @RequestMapping(value = "query")
+    @ResponseBody
+    public  Usermsg query(){
+        Usermsg u=new Usermsg();
+        Usermsg enter = userService.getEnter(u);
+        return enter;
+    }
+
+    @RequestMapping(value = "queryList")
+    @ResponseBody
+    public  List<Usermsg> queryList(String reason){
+        List<Usermsg> usermsgs = userService.queryList(reason);
+        return usermsgs;
+    }
+
+
 }

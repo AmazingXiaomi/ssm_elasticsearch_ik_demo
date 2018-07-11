@@ -698,7 +698,7 @@ public class TransportClientTest extends BaseJunit4Test {
     @Test
     public void searchByIndex() {
 
-        GetResponse response = client.prepareGet(article, content, "AV49wyfCWmWw7AxKFxec").execute()
+        GetResponse response = client.prepareGet(article, content, "520").execute()
                 .actionGet();
         String json = response.getSourceAsString();
         if (null != json) {

@@ -11,4 +11,8 @@ import java.util.Map;
  **/
 public interface BaseService<T> {
     public int createIndex(Map<String,Boolean> list);
+
+    public T getEnter(T t);
+
+    public List<T> queryList(String  reason);
 }
