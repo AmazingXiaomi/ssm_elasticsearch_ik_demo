@@ -231,6 +231,12 @@
             <artifactId>elasticsearch-analysis-ik</artifactId>
             <version>6.1.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180130</version>
+        </dependency>
 
     </dependencies>
     <repositories>
